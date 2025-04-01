@@ -1,0 +1,7 @@
+huggingface_hub
+plotly
+pandas
+transformers
+accelerate
+scikit-learn
+rdkit
