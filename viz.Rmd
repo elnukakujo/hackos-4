@@ -1,0 +1,65 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(arrow)
+library(ggplot2)
+library(dplyr)
+```
+
+```{r}
+df_train <- read_parquet("dataset/de_train_split.parquet")
+df_test <- read_parquet("dataset/de_test_split.parquet")
+head(df_train)
+head(df_test)
+```
+
+```{r}
+cat("Number of unique small molecules in the training set:", length(unique(df_train$sm_name)), "\n")
+cat("Number of unique cell types in the training set:", length(unique(df_train$cell_type)), "\n")
+
+cat("Number of unique small molecules in the testing set:", length(unique(df_test$sm_name)), "\n")
+cat("Number of unique cell types in the testing set:", length(unique(df_test$cell_type)), "\n")
+
+cat("Number of common small molecules present in both sets:", length(intersect(unique(df_test$sm_name), unique(df_train$sm_name))), "\n")
+cat("Number of common cell types present in both sets:", length(intersect(unique(df_test$cell_type), unique(df_train$cell_type))), "\n")
+```
+
+
+```{r}
+ggplot(df_train, aes(x = cell_type)) +
+  geom_bar(fill = "skyblue", color = "black") +
+  labs(title = "Distribution of Cell Type in df_train",
+       x = "Cell Type",
+       y = "Count") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+ggplot(df_train, aes(x = sm_name)) +
+  geom_bar(fill = "skyblue", color = "black") +
+  labs(title = "Distribution of Small Molecules in df_train",
+       x = "Small Molecules",
+       y = "Count") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
+```
+
+```{r}
+ggplot(df_test, aes(x = cell_type)) +
+  geom_bar(fill = "skyblue", color = "black") +
+  labs(title = "Distribution of Cell Type in df_test",
+       x = "Cell Type",
+       y = "Count") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+ggplot(df_test, aes(x = sm_name)) +
+  geom_bar(fill = "skyblue", color = "black") +
+  labs(title = "Distribution of Small Molecules in df_test",
+       x = "Small Molecules",
+       y = "Count") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
+```
